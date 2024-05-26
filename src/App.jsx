@@ -1,17 +1,16 @@
-import { useState } from 'react'
- 
+import { useState } from 'react';
+import Navbar from './componets/Navbar';
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <>
-    <div className="container">
-      <div className="bg-red-600">
-        Red background
+      <Navbar />
+      <div className="container mx-auto my-5 rounded-xl bg-gray-800 text-white">
+      its 23:00 hours
       </div>
-    </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
