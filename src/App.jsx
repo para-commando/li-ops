@@ -22,11 +22,13 @@ function App() {
   const handleCheckBoxFunctionality = (e) => {
     console.log('🚀 ~ handleCheckBoxFunctionality ~ e:', e.target.name);
     {
-      allOperations.map((operation) => {
-        if (operation.id === e.target.name) {
-          operation.isDone = !operation.isDone;
-        }
-      });
+      // This approach is followed instead of just iterating through the existing array bcs we want to re render the array objects and that happens when a new array array reference is assigned
+      let index = allOperations.findIndex(
+        (operation) => operation.id === e.target.name
+      );
+      let newAllOps = [...allOperations];
+      newAllOps[index].isDone = !newAllOps[index].isDone;
+      setAllOperations(newAllOps);
     }
   };
 
