@@ -2,7 +2,7 @@ import React from 'react';
 
 function Navbar() {
   return (
-    <nav className='bg-camoflage bg-cover flex justify-between align-middle text-white py-4 text-white'>
+    <nav className='bg-camoflage bg-cover flex justify-between align-middle text-white py-4 text-white w-[100vw]'>
       <div className='logo'>
         <span className='text-2xl font-bold text-xl mx-9 '>
           li-ops: execute your ops

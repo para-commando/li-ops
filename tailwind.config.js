@@ -2,10 +2,10 @@
 module.exports = {
   content: ['./src/**/*.{html,js,jsx,ts,tsx}'],
   theme: {
-    
     extend: {
       colors: {
         camo_match: '#242424',
+        camo_match_2: '#242424',
       },
       backgroundImage: {
         camoflage: "url('src/assets/camo.jpg')",
