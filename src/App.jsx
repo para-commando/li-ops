@@ -13,14 +13,10 @@ function App() {
       ...allOperations,
       { id: uuidv4(), newOperation, isDone: false },
     ]);
-    console.log(
-      '🚀 ~ handleAddOpsFunctionality ~ allOperations:',
-      allOperations
-    );
+
     setNewOperation('');
   };
   const handleCheckBoxFunctionality = (e) => {
-    console.log('🚀 ~ handleCheckBoxFunctionality ~ e:', e.target.name);
     {
       // This approach is followed instead of just iterating through the existing array bcs we want to re render the array objects and that happens when a new array array reference is assigned
       let index = allOperations.findIndex(
@@ -33,7 +29,12 @@ function App() {
   };
 
   const handleEditOpsFunctionality = () => {};
-  const handleDeleteOpsFunctionality = () => {};
+  const handleDeleteOpsFunctionality = (id) => {
+    {
+      let newAllOps = allOperations.filter((operation) => operation.id !== id);
+      setAllOperations(newAllOps);
+    }
+  };
   const handleNewOpsDataEntry = (element) => {
     setNewOperation(element.target.value);
   };
@@ -88,7 +89,9 @@ function App() {
                     Edit
                   </button>
                   <button
-                    onClick={handleDeleteOpsFunctionality}
+                    onClick={() => {
+                      handleDeleteOpsFunctionality(operation.id);
+                    }}
                     className=' bg-white text-black mx-1 hover:bg-black hover:text-white px-3 py-1 rounded-md text-sm font-bold active:bg-slate-600'
                   >
                     Delete
