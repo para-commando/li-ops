@@ -1,19 +1,35 @@
 import { useState } from 'react';
 import Navbar from './componets/Navbar';
 import './App.css';
+import { v4 as uuidv4 } from 'uuid';
+
 function App() {
   const [count, setCount] = useState(0);
   const [newOperation, setNewOperation] = useState('');
   const [allOperations, setAllOperations] = useState([]);
 
   const handleAddOpsFunctionality = () => {
-    setAllOperations([...allOperations, { newOperation, isDone: false }]);
+    setAllOperations([
+      ...allOperations,
+      { id: uuidv4(), newOperation, isDone: false },
+    ]);
     console.log(
       '🚀 ~ handleAddOpsFunctionality ~ allOperations:',
       allOperations
     );
     setNewOperation('');
   };
+  const handleCheckBoxFunctionality = (e) => {
+    console.log('🚀 ~ handleCheckBoxFunctionality ~ e:', e.target.name);
+    {
+      allOperations.map((operation) => {
+        if (operation.id === e.target.name) {
+          operation.isDone = !operation.isDone;
+        }
+      });
+    }
+  };
+
   const handleEditOpsFunctionality = () => {};
   const handleDeleteOpsFunctionality = () => {};
   const handleNewOpsDataEntry = (element) => {
@@ -42,24 +58,42 @@ function App() {
         <h2 className='text-xl font-bold'> Your Ops</h2>
         <div className='ops'>
           {allOperations.map((operation) => {
-           { console.log("🚀 ~ {allOperations.map ~ operation:", operation)}
-            <div className='op flex'>
-              <div className='text-white'>operation.newOperation</div>
-              <div className='buttons'>
-                <button
-                  onClick={handleEditOpsFunctionality}
-                  className=' bg-white text-black mx-1 hover:bg-black hover:text-white px-3 py-1 rounded-md text-sm font-bold active:bg-slate-600'
+            console.log('🚀 ~ {allOperations.map ~ operation:', operation);
+            return (
+              <div
+                key={operation.id}
+                className='op flex w-1/2 my-3 justify-between'
+              >
+                <input
+                  name={operation.id}
+                  type='checkbox'
+                  onChange={handleCheckBoxFunctionality}
+                  id=''
+                  value={operation.isDone}
+                />
+                <div
+                  className={
+                    operation.isDone ? 'line-through text-white' : 'text-white'
+                  }
                 >
-                  Edit
-                </button>
-                <button
-                  onClick={handleDeleteOpsFunctionality}
-                  className=' bg-white text-black mx-1 hover:bg-black hover:text-white px-3 py-1 rounded-md text-sm font-bold active:bg-slate-600'
-                >
-                  Delete
-                </button>
+                  {operation.newOperation}
+                </div>
+                <div className='buttons flex mx-2'>
+                  <button
+                    onClick={handleEditOpsFunctionality}
+                    className=' bg-white text-black mx-1 hover:bg-black hover:text-white px-3 py-1 rounded-md text-sm font-bold active:bg-slate-600'
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={handleDeleteOpsFunctionality}
+                    className=' bg-white text-black mx-1 hover:bg-black hover:text-white px-3 py-1 rounded-md text-sm font-bold active:bg-slate-600'
+                  >
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>;
+            );
           })}
         </div>
       </div>
