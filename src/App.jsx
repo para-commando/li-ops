@@ -30,9 +30,14 @@ function App() {
 
   const handleEditOpsFunctionality = () => {};
   const handleDeleteOpsFunctionality = (id) => {
-    {
-      let newAllOps = allOperations.filter((operation) => operation.id !== id);
-      setAllOperations(newAllOps);
+  
+    if (window.confirm('Are you sure you want to delete this task?')) {
+      {
+        let newAllOps = allOperations.filter(
+          (operation) => operation.id !== id
+        );
+        setAllOperations(newAllOps);
+      }
     }
   };
   const handleNewOpsDataEntry = (element) => {
@@ -43,7 +48,7 @@ function App() {
       <Navbar />
       <div className='container  my-5 rounded-xl p-5 bg-camoflage bg-cover text-white min-h-[80vh] w-[90vw]'>
         <div className='addOps'>
-          <h2 className='text-lg font-bold'>Add an Operation</h2>
+          <h2 className='text-lg font-bold py-3'>Add an Operation</h2>
           <input
             type='text'
             className='w-1/2 text-black'
@@ -58,15 +63,17 @@ function App() {
             Add
           </button>
         </div>
-        <h2 className='text-xl font-bold'> Your Ops</h2>
+        <h2 className='text-xl font-bold py-4'> Your Ops</h2>
         <div className='ops'>
+          {allOperations.length==0 && <p className='text-white px-6'>No Ops</p>}
           {allOperations.map((operation) => {
             console.log('🚀 ~ {allOperations.map ~ operation:', operation);
             return (
               <div
                 key={operation.id}
-                className='op flex w-1/2 my-3 justify-between'
+                className='op flex w-1/2 my-3 justify-between px-6'
               >
+                <div className='flex gap-5'>
                 <input
                   name={operation.id}
                   type='checkbox'
@@ -81,6 +88,8 @@ function App() {
                 >
                   {operation.newOperation}
                 </div>
+                </div>
+
                 <div className='buttons flex mx-2'>
                   <button
                     onClick={handleEditOpsFunctionality}
