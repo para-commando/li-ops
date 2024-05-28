@@ -28,8 +28,16 @@ function App() {
     }
   };
 
-  const handleEditOpsFunctionality = () => {};
-  const handleDeleteOpsFunctionality = (id) => {
+  const handleEditOpsFunctionality = (e, id) => {
+
+    let index = allOperations.filter(
+      (operation) => operation.id === id
+    );
+    setNewOperation(index[0].newOperation);
+
+  };
+   
+  const handleDeleteOpsFunctionality = (e, id) => {
   
     if (window.confirm('Are you sure you want to delete this task?')) {
       {
@@ -92,14 +100,14 @@ function App() {
 
                 <div className='buttons flex mx-2'>
                   <button
-                    onClick={handleEditOpsFunctionality}
+                    onClick={(e)=>{handleEditOpsFunctionality(e,operation.id)}}
                     className=' bg-white text-black mx-1 hover:bg-black hover:text-white px-3 py-1 rounded-md text-sm font-bold active:bg-slate-600'
                   >
                     Edit
                   </button>
                   <button
-                    onClick={() => {
-                      handleDeleteOpsFunctionality(operation.id);
+                    onClick={(e) => {
+                      handleDeleteOpsFunctionality(e,operation.id);
                     }}
                     className=' bg-white text-black mx-1 hover:bg-black hover:text-white px-3 py-1 rounded-md text-sm font-bold active:bg-slate-600'
                   >
