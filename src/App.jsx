@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Navbar from './componets/Navbar';
 import './App.css';
 import { v4 as uuidv4 } from 'uuid';
@@ -8,6 +8,21 @@ function App() {
   const [newOperation, setNewOperation] = useState('');
   const [allOperations, setAllOperations] = useState([]);
 
+  useEffect(() => {
+    let allOpsFromLocalStorage = localStorage.getItem('allOperations');
+    console.log(
+      '🚀 ~ useEffect ~ allOpsFromLocalStorage:',
+      allOpsFromLocalStorage
+    );
+    if (allOpsFromLocalStorage) {
+      const aa = JSON.parse(allOpsFromLocalStorage);
+      console.log('🚀 ~ useEffect ~ aa:', aa);
+      setAllOperations(aa);
+    }
+  }, []);
+  const saveToLocalStorage = () => {
+    localStorage.setItem('allOperations', JSON.stringify(allOperations));
+  };
   const handleAddOpsFunctionality = () => {
     setAllOperations([
       ...allOperations,
@@ -15,7 +30,9 @@ function App() {
     ]);
 
     setNewOperation('');
+    saveToLocalStorage();
   };
+
   const handleCheckBoxFunctionality = (e) => {
     {
       // This approach is followed instead of just iterating through the existing array bcs we want to re render the array objects and that happens when a new array array reference is assigned
@@ -25,31 +42,32 @@ function App() {
       let newAllOps = [...allOperations];
       newAllOps[index].isDone = !newAllOps[index].isDone;
       setAllOperations(newAllOps);
+      saveToLocalStorage();
     }
   };
 
   const handleEditOpsFunctionality = (e, id) => {
-
-    let index = allOperations.filter(
-      (operation) => operation.id === id
-    );
+    let index = allOperations.filter((operation) => operation.id === id);
     setNewOperation(index[0].newOperation);
-
+    let newAllOps = allOperations.filter((operation) => operation.id !== id);
+    setAllOperations(newAllOps);
+    saveToLocalStorage();
   };
-   
+
   const handleDeleteOpsFunctionality = (e, id) => {
-  
     if (window.confirm('Are you sure you want to delete this task?')) {
       {
         let newAllOps = allOperations.filter(
           (operation) => operation.id !== id
         );
         setAllOperations(newAllOps);
+        saveToLocalStorage();
       }
     }
   };
   const handleNewOpsDataEntry = (element) => {
     setNewOperation(element.target.value);
+    saveToLocalStorage();
   };
   return (
     <>
@@ -73,7 +91,9 @@ function App() {
         </div>
         <h2 className='text-xl font-bold py-4'> Your Ops</h2>
         <div className='ops'>
-          {allOperations.length==0 && <p className='text-white px-6'>No Ops</p>}
+          {allOperations.length == 0 && (
+            <p className='text-white px-6'>No Ops</p>
+          )}
           {allOperations.map((operation) => {
             console.log('🚀 ~ {allOperations.map ~ operation:', operation);
             return (
@@ -82,32 +102,36 @@ function App() {
                 className='op flex w-1/2 my-3 justify-between px-6'
               >
                 <div className='flex gap-5'>
-                <input
-                  name={operation.id}
-                  type='checkbox'
-                  onChange={handleCheckBoxFunctionality}
-                  id=''
-                  value={operation.isDone}
-                />
-                <div
-                  className={
-                    operation.isDone ? 'line-through text-white' : 'text-white'
-                  }
-                >
-                  {operation.newOperation}
-                </div>
+                  <input
+                    name={operation.id}
+                    type='checkbox'
+                    onChange={handleCheckBoxFunctionality}
+                    id=''
+                    value={operation.isDone}
+                  />
+                  <div
+                    className={
+                      operation.isDone
+                        ? 'line-through text-white text-wrap'
+                        : 'text-white text-wrap'
+                    }
+                  >
+                    {operation.newOperation}
+                  </div>
                 </div>
 
-                <div className='buttons flex mx-2'>
+                <div className='buttons flex mx-2 h-full'>
                   <button
-                    onClick={(e)=>{handleEditOpsFunctionality(e,operation.id)}}
+                    onClick={(e) => {
+                      handleEditOpsFunctionality(e, operation.id);
+                    }}
                     className=' bg-white text-black mx-1 hover:bg-black hover:text-white px-3 py-1 rounded-md text-sm font-bold active:bg-slate-600'
                   >
                     Edit
                   </button>
                   <button
                     onClick={(e) => {
-                      handleDeleteOpsFunctionality(e,operation.id);
+                      handleDeleteOpsFunctionality(e, operation.id);
                     }}
                     className=' bg-white text-black mx-1 hover:bg-black hover:text-white px-3 py-1 rounded-md text-sm font-bold active:bg-slate-600'
                   >
