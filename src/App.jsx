@@ -67,8 +67,7 @@ function App() {
     setNewOperation(element.target.value);
   };
   const handleShowFinishedOps = (params) => {
-    if (params.target.value) {
-    }
+   setShowFinishedOps(!showFinishedOps);
   };
   return (
     <>
@@ -110,7 +109,8 @@ function App() {
             <p className='text-white px-6'>No Ops</p>
           )}
           {allOperations.map((operation) => {
-            return (
+          //  in the below condition when showFinishedOps is true it doesnt matter on the status of the ops as we need to show all of them and when showFinishedOps is false we need to show only the ones that are not done so we used ! not operator
+            return (showFinishedOps || !operation.isDone)&&(
               <div
                 key={operation.id}
                 className='op flex w-1/2 my-3 justify-between px-6'
