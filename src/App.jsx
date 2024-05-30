@@ -7,30 +7,26 @@ function App() {
   const [count, setCount] = useState(0);
   const [newOperation, setNewOperation] = useState('');
   const [allOperations, setAllOperations] = useState([]);
+  const [showFinishedOps, setShowFinishedOps] = useState(true);
 
   useEffect(() => {
     let allOpsFromLocalStorage = localStorage.getItem('allOperations');
-    console.log(
-      '🚀 ~ useEffect ~ allOpsFromLocalStorage:',
-      allOpsFromLocalStorage
-    );
+
     if (allOpsFromLocalStorage) {
-      const aa = JSON.parse(allOpsFromLocalStorage);
-      console.log('🚀 ~ useEffect ~ aa:', aa);
-      setAllOperations(aa);
+      const allOpsFromStorage = JSON.parse(allOpsFromLocalStorage);
+      setAllOperations(allOpsFromStorage);
     }
   }, []);
-  const saveToLocalStorage = () => {
-    localStorage.setItem('allOperations', JSON.stringify(allOperations));
-  };
-  const handleAddOpsFunctionality = () => {
-    setAllOperations([
+
+  const handleAddOpsFunctionality = (e) => {
+    const aa = [
       ...allOperations,
       { id: uuidv4(), newOperation, isDone: false },
-    ]);
-
+    ];
+    localStorage.setItem('allOperations', JSON.stringify(aa));
+    setAllOperations(aa);
     setNewOperation('');
-    saveToLocalStorage();
+    // saveToLocalStorage();
   };
 
   const handleCheckBoxFunctionality = (e) => {
@@ -41,8 +37,10 @@ function App() {
       );
       let newAllOps = [...allOperations];
       newAllOps[index].isDone = !newAllOps[index].isDone;
+      localStorage.setItem('allOperations', JSON.stringify(newAllOps));
+
       setAllOperations(newAllOps);
-      saveToLocalStorage();
+      // saveToLocalStorage();
     }
   };
 
@@ -50,8 +48,8 @@ function App() {
     let index = allOperations.filter((operation) => operation.id === id);
     setNewOperation(index[0].newOperation);
     let newAllOps = allOperations.filter((operation) => operation.id !== id);
+    localStorage.setItem('allOperations', JSON.stringify(newAllOps));
     setAllOperations(newAllOps);
-    saveToLocalStorage();
   };
 
   const handleDeleteOpsFunctionality = (e, id) => {
@@ -60,14 +58,17 @@ function App() {
         let newAllOps = allOperations.filter(
           (operation) => operation.id !== id
         );
-        setAllOperations(newAllOps);
-        saveToLocalStorage();
-      }
+        localStorage.setItem('allOperations', JSON.stringify([...newAllOps]));
+        setAllOperations([...newAllOps]);
+        }
     }
   };
   const handleNewOpsDataEntry = (element) => {
     setNewOperation(element.target.value);
-    saveToLocalStorage();
+  };
+  const handleShowFinishedOps = (params) => {
+    if (params.target.value) {
+    }
   };
   return (
     <>
@@ -83,19 +84,32 @@ function App() {
             onChange={handleNewOpsDataEntry}
           />
           <button
-            onClick={handleAddOpsFunctionality}
-            className=' bg-white text-black mx-4 hover:bg-black hover:text-white px-3 py-1 rounded-md text-sm font-bold active:bg-slate-600'
+            onClick={(e) => {
+              handleAddOpsFunctionality(e);
+            }}
+            className=' bg-white text-black mx-4 hover:bg-black hover:text-white px-3 py-1 rounded-md text-sm font-bold active:bg-slate-600 disabled:bg-gray-400'
+            disabled={newOperation?.length < 2}
           >
             Add
           </button>
         </div>
+        <div className='finishedOps flex  my-3 gap-2  py-6'>
+          <input
+            type='checkbox'
+            className='text-black'
+            name='finishedOps'
+            checked={showFinishedOps}
+            onChange={handleShowFinishedOps}
+          />
+          <span>Show Finished Ops</span>
+        </div>
+
         <h2 className='text-xl font-bold py-4'> Your Ops</h2>
         <div className='ops'>
           {allOperations.length == 0 && (
             <p className='text-white px-6'>No Ops</p>
           )}
           {allOperations.map((operation) => {
-            console.log('🚀 ~ {allOperations.map ~ operation:', operation);
             return (
               <div
                 key={operation.id}
@@ -107,7 +121,7 @@ function App() {
                     type='checkbox'
                     onChange={handleCheckBoxFunctionality}
                     id=''
-                    value={operation.isDone}
+                    checked={operation.isDone}
                   />
                   <div
                     className={
