@@ -71,7 +71,12 @@ function BodyComponent() {
   const handleShowFinishedOps = (params) => {
     setShowFinishedOps(!showFinishedOps);
   };
-  
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && newOperation.length >= 2) {
+      handleAddOpsFunctionality();
+    }
+  };
+
   return (
         <div className='container my-5 rounded-xl p-5 bg-camoflage bg-cover text-white min-h-[80vh] w-[85vw]'>
         <h2 className='text-lg font-bold py-3'>Add an Operation</h2>
@@ -82,6 +87,7 @@ function BodyComponent() {
             name='newOps'
             value={newOperation}
             onChange={handleNewOpsDataEntry}
+            onKeyDown={handleKeyDown}
           />
           <button
             title='Add'
