@@ -1,14 +1,16 @@
-import { useState } from 'react';
-import Navbar from './componets/Navbar';
-function App() {
-  const [count, setCount] = useState(0);
+import './App.css';
+import React from 'react'
+import Navbar from './componets/NavbarComponent';
+import BodyComponent from './componets/BodyComponent';
+import FooterComponent from './componets/FooterComponent'
 
+function App() {
+ 
   return (
     <>
       <Navbar />
-      <div className="container mx-auto my-5 rounded-xl bg-gray-800 text-white">
-      its 23:00 hours
-      </div>
+      <BodyComponent/>
+   <FooterComponent />
     </>
   );
 }
