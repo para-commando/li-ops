@@ -2,17 +2,15 @@
 
 Li-Ops is a task management application designed to help you manage your special operations. This React app provides a user-friendly interface to add, edit, delete, and mark tasks as completed. The tasks are stored in the local storage of the browser, ensuring persistence between sessions.
 
+![image](https://github.com/para-commando/li-ops/assets/123434846/29ccf0bc-a507-4856-a698-117c05b724a6)
+
 ## Table of Contents
 
 1. [Features](#features)
 2. [Installation](#installation)
 3. [Usage](#usage)
-4. [Components](#components)
-    - [Navbar](#navbar)
-    - [BodyComponent](#bodycomponent)
-    - [FooterComponent](#footercomponent)
-5. [Contributing](#contributing)
-6. [License](#license)
+4. [Contributing](#contributing)
+5. [License](#license)
 
 ## Features
 
@@ -48,3 +46,9 @@ To get started with the Li-Ops application, follow these steps:
 3. Use the checkboxes to mark operations as completed.
 
 4. Use the edit and delete buttons to manage your operations.
+
+## Contributing
+Contributions are welcome! Please fork the repository and create a pull request with your changes. Ensure your code adheres to the project's coding standards.
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for more details.
