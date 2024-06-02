@@ -134,7 +134,7 @@ function BodyComponent() {
                     <div
                       className={
                         operation.isDone
-                          ? 'line-through text-white text-wrap'
+                          ? 'line-through text-white text-wrap break-words w-full'
                           : 'text-white text-wrap break-words w-full'
                       }
                     >
