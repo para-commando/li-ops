@@ -40,8 +40,6 @@ To get started with the Li-Ops application, follow these steps:
 4. Start the development server:
    ```bash
    npm run dev
-
-
 ## Usage
 1. Open your browser and navigate to http://localhost:5173.
 
